@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <!-- 1. BoardMapper인터페이스 선언(mapper namespace)
+ 	  2. root-context.xml mybatis:scan 태그로 기본 패키지 지정
+ 	  3. BoardMapper.xml 실행쿼리 작성
+  -->
+ <mapper namespace="org.zerock.mapper.BoardMapper">
+  
+  <select id="list" resultType="org.zerock.domain.BoardVO" > 
+ <!--  []이곳에 있는 것은 mybatis가 처리하지 않고 그대로 넘김-->
+  <!-- []이곳에 있는 것은 mybatis가 처리하지 않고 그대로 넘김 -->
+  <![CDATA[
+  select no, title, writer, writeDate, hit
+  from board
+  order by no desc
+  ]]>
+  </select>
+
+  
+  <insert id="write"> 
+  
+  <!-- []이곳에 있는 것은 mybatis가 처리하지 않고 그대로 넘김 -->
+  <![CDATA[
+ 	 insert into board(no, title, content, writer, pw)
+  	 values(board_seq.nextval, #{title}, #{content}, #{writer}, #{pw})
+  ]]>
+  </insert>
+  
+  <select id="view" resultType="org.zerock.domain.BoardVO" > 
+ <!--  []이곳에 있는 것은 mybatis가 처리하지 않고 그대로 넘김-->
+  <![CDATA[
+ 	 select no, title, content, writer, writeDate, hit
+  	from board
+  	where no = #{no}
+  ]]>
+  </select> 
+  
+  <!-- 조회수 1증가 -->
+  <update id="increase" > 
+ <!--  []이곳에 있는 것은 mybatis가 처리하지 않고 그대로 넘김-->
+  <![CDATA[
+ 	update board 
+ 	set hit = hit + 1
+ 	where no = #{no}
+  ]]>
+  </update> 
+  
+ <!--글 수정 -->
+  <update id="update"> 
+ <!--  []이곳에 있는 것은 mybatis가 처리하지 않고 그대로 넘김-->
+  <![CDATA[
+ 	update board 
+ 	set title=#{title}, content = #{content}, writer = #{writer}
+ 	where no = #{no} and pw = #{pw}
+  ]]>
+  </update> 
+  
+ <!--글 삭제 -->
+  <delete id="delete"> 
+ <!--  []이곳에 있는 것은 mybatis가 처리하지 않고 그대로 넘김-->
+  <![CDATA[
+ 	delete from board
+ 	where no = #{no} and pw = #{pw}
+  ]]>
+  </delete> 
+  
+  </mapper>
